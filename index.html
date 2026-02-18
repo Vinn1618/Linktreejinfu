@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linktree Particle</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#000;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    overflow:hidden;
+}
+
+/* canvas particle */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1;
+}
+
+/* container */
+.container{
+    width:100%;
+    max-width:380px;
+    padding:24px;
+    z-index:2;
+}
+
+/* profile */
+.profile{
+    text-align:center;
+    margin-bottom:26px;
+}
+.profile img{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    border:3px solid rgba(255,255,255,.6);
+    margin-bottom:12px;
+    animation:pop .8s ease;
+}
+@keyframes pop{
+    from{transform:scale(.7);opacity:0}
+    to{transform:scale(1);opacity:1}
+}
+.profile h1{
+    font-size:22px;
+    font-weight:600;
+}
+.profile p{
+    font-size:13px;
+    opacity:.7;
+}
+
+/* links */
+.links{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.link{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    padding:14px;
+    background:rgba(255,255,255,.08);
+    border-radius:14px;
+    text-decoration:none;
+    color:#fff;
+    backdrop-filter:blur(6px);
+    transition:.3s;
+    animation:fadeUp .6s ease forwards;
+}
+
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(15px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+.link:hover{
+    transform:translateY(-3px) scale(1.02);
+    background:rgba(255,255,255,.15);
+    box-shadow:0 0 20px rgba(255,255,255,.15);
+}
+
+.link i{
+    font-size:24px;
+    width:30px;
+    margin-top:2px;
+}
+
+.link-text{
+    display:flex;
+    flex-direction:column;
+}
+
+.link-text strong{
+    font-size:15px;
+    font-weight:500;
+}
+
+.link-text span{
+    font-size:12px;
+    opacity:.7;
+    margin-top:3px;
+}
+
+/* footer */
+.footer{
+    text-align:center;
+    margin-top:22px;
+    font-size:12px;
+    opacity:.5;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="container">
+    <div class="profile">
+        <img src="Jinfu.png">
+        <h1>JINFU STORE</h1>
+        <p>JINFU STORE Digital Gaming Store Proses Cepat Tanpa Ribet Semua Informasi Dan Order Di Bawah</p>
+    </div>
+
+    <div class="links">
+
+        <a href="https://wa.me/6285654793301" class="link">
+            <i class="fab fa-whatsapp"></i>
+            <div class="link-text">
+                <strong>WhatsApp</strong>
+                <span>Chat & order langsung</span>
+            </div>
+        </a>
+
+        <a href="https://www.instagram.com/jinfustoreee?igsh=d2VqeXdzOWZwdWVv" class="link">
+            <i class="fab fa-instagram"></i>
+            <div class="link-text">
+                <strong>Instagram</strong>
+                <span>Postingan & story terbaru</span>
+            </div>
+        </a>
+
+        <a href="https://chat.whatsapp.com/DqABjEtlSuC98sAKQhd6a0?mode=gi_t" class="link">
+            <i class="fab fa-whatsapp"></i>
+            <div class="link-text">
+                <strong>WhatsApp Group</strong>
+                <span>Info Mabar & Push Rank</span>
+            </div>
+        </a>
+
+        <a href="https://discord.gg/fADGWxhad" class="link">
+            <i class="fab fa-discord"></i>
+            <div class="link-text">
+                <strong>Discord</strong>
+                <span>Info & Nongkrong Area</span>
+            </div>
+        </a>
+
+        <a href="https://www.tiktok.com/@buyermeee_?_r=1&_t=ZS-93rFrItajVE" class="link">
+            <i class="fab fa-tiktok"></i>
+            <div class="link-text">
+                <strong>TikTok</strong>
+                <span>Conten & live stream</span>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="footer">© 2026 • JINFU STORE</div>
+</div>
+
+<script>
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles = [];
+const count = 70;
+const maxDistance = 120;
+
+class Particle{
+    constructor(){
+        this.x = Math.random()*canvas.width;
+        this.y = Math.random()*canvas.height;
+        this.size = Math.random()*2+1;
+        this.vx = Math.random()*0.6-0.3;
+        this.vy = Math.random()*0.6-0.3;
+    }
+    update(){
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if(this.x<0||this.x>canvas.width) this.vx*=-1;
+        if(this.y<0||this.y>canvas.height) this.vy*=-1;
+    }
+    draw(){
+        ctx.fillStyle="rgba(255,255,255,0.7)";
+        ctx.beginPath();
+        ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+        ctx.fill();
+    }
+}
+
+function init(){
+    particles=[];
+    for(let i=0;i<count;i++){
+        particles.push(new Particle());
+    }
+}
+
+function connect(){
+    for(let a=0;a<particles.length;a++){
+        for(let b=a;b<particles.length;b++){
+            let dx = particles[a].x - particles[b].x;
+            let dy = particles[a].y - particles[b].y;
+            let dist = Math.sqrt(dx*dx + dy*dy);
+
+            if(dist < maxDistance){
+                ctx.strokeStyle = `rgba(255,255,255,${1 - dist/maxDistance})`;
+                ctx.lineWidth = 0.5;
+                ctx.beginPath();
+                ctx.moveTo(particles[a].x, particles[a].y);
+                ctx.lineTo(particles[b].x, particles[b].y);
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+        p.update();
+        p.draw();
+    });
+    connect();
+    requestAnimationFrame(animate);
+}
+
+addEventListener("resize",()=>{
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+    init();
+});
+
+init();
+animate();
+</script>
+
+</body>
+</html>
